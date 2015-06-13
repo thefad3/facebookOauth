@@ -1,6 +1,5 @@
 window.fbAsyncInit = function() {
 
-
     FB.init({
         appId      : '1492538204340357',
         xfbml      : true,
@@ -40,14 +39,6 @@ window.fbAsyncInit = function() {
         }
     });
 
-    FB.api(
-        "1019658694718581?fields=albums",
-        function (response) {
-            if (response && !response.error) {
-               //console.log(response);
-            }
-        }
-    );
 };
 (function(d, s, id){
     var js, fjs = d.getElementsByTagName(s)[0];
