@@ -15,20 +15,20 @@ window.fbAsyncInit = function() {
 
                     //If user is logged in, hide button
                     $('.facebookButton').hide();
-                    //Then Log them into the site with token auth
+                    
+                    //Fetch User Information
                         FB.api('/me', function (response) {
-                                console.log(response);
                                 $('.FBPics').append('<div></div>', response.first_name + ' ' + response.last_name);
                                 $('.ProfileP').attr('href', response.link);
                         });
-                        
-                      // Note: The call will only work if you accept the permission request
+                
+                //Form Submission function        
                 $('#facebookStatus').submit(function(e){
                     e.preventDefault();
                     var status = $("#status").val();
                     postStatus(status);
                 });
-                
+                //Callback for submitting data
                 function postStatus(status){
 
                         FB.api('/me/feed', 'post', { message: status }, function(response) {
@@ -41,6 +41,7 @@ window.fbAsyncInit = function() {
                                         
              
                 };
+                //Come on, logout, 2 ez.
                 $('#logoutFacebook').on('click', function(){
                     FB.logout(function(response) {
                         if(!response || response.error){
@@ -55,16 +56,16 @@ window.fbAsyncInit = function() {
                     
                 })
         } else if (response.status === 'not_authorized') {
+                    $('.loggedIn').hide();
                     facebookLogin = function() {
                         FB.login(function (response) {
                             if (response.authResponse) {
                                 
-                                console.log('Welcome!  Fetching your information.... ');
                                 FB.api('/me', function (response) {
                                     console.log('Good to see you, ' + response.name + '.');
-                                    console.log(response);
                                 });
-                            window.location.href = 'https://facebookoauth-thefad3.c9.io/';
+                                
+                                window.location.href = 'https://facebookoauth-thefad3.c9.io/';
                                 
                             } else {
                                 console.log('User cancelled login or did not fully authorize.');
@@ -73,15 +74,14 @@ window.fbAsyncInit = function() {
                     };
         } else {                    
             $('.loggedIn').hide();
-            console.log(response);
                 facebookLogin = function() {
                     FB.login(function (response) {
                         if (response.authResponse) {
-                            console.log('Welcome!  Fetching your information.... ');
+
                             FB.api('/me', function (response) {
                                 console.log('Good to see you, ' + response.name + '.');
-                                console.log(response);
                             });
+                            
                             window.location.href = 'https://facebookoauth-thefad3.c9.io/';
                             
                         } else {
