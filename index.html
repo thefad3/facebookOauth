@@ -5,11 +5,12 @@
 
 <div class="container">
     
-    <div class="fb-root" id="fb-root"></div>
-    <div class="row"><button class="btn btn-primary facebookButton" onclick="facebookLogin()">Facebook Login</button></div>    
-    
-    
     <div class="row">
+    <div class="fb-root" id="fb-root"></div>
+    <button class="btn btn-primary facebookButton" onclick="facebookLogin()">Facebook Login</button>
+    </div>
+    
+    <div class="row loggedIn">
         <div class="col-md-12">
             <h3>Welcome Back:</h3>
             <div class="FBPics"></div>
@@ -17,17 +18,23 @@
 
         </div>
     </div>
-    <div class="row">
-        <form onsubmit="postStatus()" method="post" name="facebookStatus" id="facebookStatus">
+    <div class="row loggedIn">
+        
+        <div class="col-md-12">
+            <div class="statusConfirm"></div>
+        </div>
+        
+        
+        <form  method="post" action="javascript:"  id="facebookStatus">
             <div class="col-md-12">
                 <b>Whats on your Mind?</b>
-                <input type="text" class="form-control" name="status">
+                <input type="text" class="form-control" name="status" id="status">
             </div>
     </div>
     <p></p>
-    <div class="row">
+    <div class="row loggedIn">
             <div class="col-md-12">
-                <input type="submit" class="form-control btn btn-primary">
+                <input type="submit" class="form-control btn btn-primary" id="getFormData"  value="Post to Facebook">
             </div>        
         </form>
         

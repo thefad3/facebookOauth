@@ -3,12 +3,14 @@ window.fbAsyncInit = function() {
     FB.init({
         appId      : '1492538204340357',
         xfbml      : true,
-        version    : 'v2.3',
+        version    : 'v2.3'
     });
-
+    
     //Check Facebook.com login Status
     FB.getLoginStatus(function(response) {
         if (response.status === 'connected') {
+            
+            
             var uid = response.authResponse.userID;
             var accessToken = response.authResponse.accessToken;
             console.log(response);
@@ -17,16 +19,33 @@ window.fbAsyncInit = function() {
                     $('.facebookButton').hide();
                     //Then Log them into the site with token auth
                     
-                    FB.login(function(){
                         
-                        FB.api('/picture', function (response) {
+                        FB.api('/me', function (response) {
                                 console.log(response);
                                 $('.FBPics').append('<div></div>', response.first_name + ' ' + response.last_name);
                                 $('.ProfileP').attr('href', response.link);
                         });
                         
                       // Note: The call will only work if you accept the permission request
-                    }, {scope: 'user_friends'});
+                $('#facebookStatus').submit(function(e){
+                    e.preventDefault();
+                    var status = $("#status").val();
+                    postStatus(status);
+                });
+                
+                function postStatus(status){
+
+                        FB.api('/me/feed', 'post', { message: status }, function(response) {
+                            if (!response || response.error) {
+                                $(".statusConfirm").text( "If your reading this, its too late." ).show();
+                            } else {
+                                $(".statusConfirm").text( "You have Sucessfully Posted to your Facebook!" ).show();
+                            }
+                        });
+                                        
+             
+                };
+                    
                 
 
         } else if (response.status === 'not_authorized') {
@@ -45,7 +64,9 @@ window.fbAsyncInit = function() {
                             }
                         });
                     };
-        } else {
+        } else {                    
+            $('.loggedIn').hide();
+            console.log(response);
                 facebookLogin = function() {
                     FB.login(function (response) {
                         if (response.authResponse) {
@@ -65,6 +86,7 @@ window.fbAsyncInit = function() {
     });
 
 };
+
 (function(d, s, id){
     var js, fjs = d.getElementsByTagName(s)[0];
     if (d.getElementById(id)) {return;}
@@ -72,3 +94,5 @@ window.fbAsyncInit = function() {
     js.src = "//connect.facebook.net/en_US/sdk.js";
     fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
+
+
