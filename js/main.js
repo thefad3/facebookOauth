@@ -10,16 +10,12 @@ window.fbAsyncInit = function() {
     FB.getLoginStatus(function(response) {
         if (response.status === 'connected') {
             
-            
             var uid = response.authResponse.userID;
             var accessToken = response.authResponse.accessToken;
-            console.log(response);
-                    
+
                     //If user is logged in, hide button
                     $('.facebookButton').hide();
                     //Then Log them into the site with token auth
-                    
-                        
                         FB.api('/me', function (response) {
                                 console.log(response);
                                 $('.FBPics').append('<div></div>', response.first_name + ' ' + response.last_name);
@@ -45,6 +41,23 @@ window.fbAsyncInit = function() {
                                         
              
                 };
+                $('#logoutFacebook').on('click', function(){
+                    
+                    FB.logout(function(response) {
+                        if(!response || response.error){
+                            alert('Something went wrong... Sounds like a Facebook Problem');
+                            window.location.href = 'https://facebookoauth-thefad3.c9.io/';
+                        }else{
+                            alert('You are now logged out of Facebook!');
+                            window.location.href = 'https://facebookoauth-thefad3.c9.io/';
+                        }
+                            
+                    });
+                    
+                })
+                function logoutFacebook(){
+
+                }
                     
                 
 
@@ -58,6 +71,7 @@ window.fbAsyncInit = function() {
                                     console.log('Good to see you, ' + response.name + '.');
                                     console.log(response);
                                 });
+                            window.location.href = 'https://facebookoauth-thefad3.c9.io/';
                                 
                             } else {
                                 console.log('User cancelled login or did not fully authorize.');
@@ -70,12 +84,12 @@ window.fbAsyncInit = function() {
                 facebookLogin = function() {
                     FB.login(function (response) {
                         if (response.authResponse) {
-                            
                             console.log('Welcome!  Fetching your information.... ');
                             FB.api('/me', function (response) {
                                 console.log('Good to see you, ' + response.name + '.');
                                 console.log(response);
                             });
+                            window.location.href = 'https://facebookoauth-thefad3.c9.io/';
                             
                         } else {
                             console.log('User cancelled login or did not fully authorize.');
