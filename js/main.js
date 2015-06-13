@@ -6,36 +6,61 @@ window.fbAsyncInit = function() {
         version    : 'v2.3',
     });
 
-    facebookLogin = function() {
-        FB.login(function (response) {
-            if (response.authResponse) {
-                console.log('Welcome!  Fetching your information.... ');
-                FB.api('/me', function (response) {
-                    console.log('Good to see you, ' + response.name + '.');
-                    console.log(response);
-                });
-            } else {
-                console.log('User cancelled login or did not fully authorize.');
-            }
-        });
-    };
-
-
+    //Check Facebook.com login Status
     FB.getLoginStatus(function(response) {
         if (response.status === 'connected') {
-            console.log(response);
-            // the user is logged in and has authenticated your
-            // app, and response.authResponse supplies
-            // the user's ID, a valid access token, a signed
-            // request, and the time the access token
-            // and signed request each expire
             var uid = response.authResponse.userID;
             var accessToken = response.authResponse.accessToken;
+            console.log(response);
+                    
+                    //If user is logged in, hide button
+                    $('.facebookButton').hide();
+                    //Then Log them into the site with token auth
+                    
+                    FB.login(function(){
+                        
+                        FB.api('/picture', function (response) {
+                                console.log(response);
+                                $('.FBPics').append('<div></div>', response.first_name + ' ' + response.last_name);
+                                $('.ProfileP').attr('href', response.link);
+                        });
+                        
+                      // Note: The call will only work if you accept the permission request
+                    }, {scope: 'user_friends'});
+                
+
         } else if (response.status === 'not_authorized') {
-            // the user is logged in to Facebook,
-            // but has not authenticated your app
+                    facebookLogin = function() {
+                        FB.login(function (response) {
+                            if (response.authResponse) {
+                                
+                                console.log('Welcome!  Fetching your information.... ');
+                                FB.api('/me', function (response) {
+                                    console.log('Good to see you, ' + response.name + '.');
+                                    console.log(response);
+                                });
+                                
+                            } else {
+                                console.log('User cancelled login or did not fully authorize.');
+                            }
+                        });
+                    };
         } else {
-            // the user isn't logged in to Facebook.
+                facebookLogin = function() {
+                    FB.login(function (response) {
+                        if (response.authResponse) {
+                            
+                            console.log('Welcome!  Fetching your information.... ');
+                            FB.api('/me', function (response) {
+                                console.log('Good to see you, ' + response.name + '.');
+                                console.log(response);
+                            });
+                            
+                        } else {
+                            console.log('User cancelled login or did not fully authorize.');
+                        }
+                    });
+                };
         }
     });
 
