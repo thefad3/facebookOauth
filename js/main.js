@@ -42,7 +42,6 @@ window.fbAsyncInit = function() {
              
                 };
                 $('#logoutFacebook').on('click', function(){
-                    
                     FB.logout(function(response) {
                         if(!response || response.error){
                             alert('Something went wrong... Sounds like a Facebook Problem');
@@ -55,12 +54,6 @@ window.fbAsyncInit = function() {
                     });
                     
                 })
-                function logoutFacebook(){
-
-                }
-                    
-                
-
         } else if (response.status === 'not_authorized') {
                     facebookLogin = function() {
                         FB.login(function (response) {
